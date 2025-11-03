@@ -213,3 +213,6 @@ mlruns/
 models/
 !models/.gitignore
 /models
+
+# DVC remote storage
+dvc_remote/
