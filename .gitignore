@@ -212,3 +212,4 @@ mlruns/
 # Models (управляются через DVC)
 models/
 !models/.gitignore
+/models
