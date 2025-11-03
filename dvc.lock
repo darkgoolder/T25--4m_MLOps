@@ -13,3 +13,17 @@ stages:
     - path: data/processed/processed.csv
       md5: 54a2b9bb564fe9a0615a7a3551042695
       size: 254050
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/processed.csv
+      md5: 54a2b9bb564fe9a0615a7a3551042695
+      size: 254050
+    - path: src/train.py
+      md5: 0a136c2628adbc17219eea601423f248
+      size: 4887
+    outs:
+    - path: models/
+      md5: b60579a3398c795ab21b772794e96130.dir
+      size: 17677587
+      nfiles: 3
