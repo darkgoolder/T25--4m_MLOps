@@ -1,0 +1,17 @@
+pandas
+numpy
+tensorflow
+scikit-learn
+matplotlib
+mlflow
+joblib
+chardet
+DateTime
+seaborn
+fastapi
+uvicorn
+pydantic
+pytest
+pytest-cov
+requests
+httpx
