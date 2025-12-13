@@ -210,3 +210,8 @@ dvc_remote/
 mlruns/
 models/
 reports/
+
+# Airflow logs
+airflow/logs/
+
+tt.py
