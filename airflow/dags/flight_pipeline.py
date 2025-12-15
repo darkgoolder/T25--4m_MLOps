@@ -142,10 +142,13 @@ with DAG(
         bash_command='cd /opt/airflow && python src/train.py',
     )
     
-    # Задача 3: Оценка модели
+    # В airflow/dags/flight_pipeline.py измените задачу evaluate:
     evaluate = BashOperator(
         task_id='evaluate',
-        bash_command='cd /opt/airflow && python src/evaluate.py',
+        bash_command='cd /opt/airflow && PYTHONPATH=/root/.local/lib/python3.8/site-packages:/usr/local/lib/python3.8/site-packages:$PYTHONPATH python src/evaluate.py',
+        env={
+            'PYTHONPATH': '/root/.local/lib/python3.8/site-packages:/usr/local/lib/python3.8/site-packages:/opt/airflow',
+        },
     )
     
     # Задача 4: Регистрация модели (только если оценка хорошая)
