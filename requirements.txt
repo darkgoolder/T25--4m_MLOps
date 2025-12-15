@@ -5,6 +5,7 @@ scikit-learn
 matplotlib
 mlflow
 joblib
+dvc
 chardet
 DateTime
 seaborn
@@ -15,3 +16,8 @@ pytest
 pytest-cov
 requests
 httpx
+seaborn>=0.13.0
+apache-airflow==2.8.1
+apache-airflow-providers-postgres>=5.6.0
+SQLAlchemy<2.0.0,>=1.4.0
+protobuf<5.0.0,>=3.19.0 
