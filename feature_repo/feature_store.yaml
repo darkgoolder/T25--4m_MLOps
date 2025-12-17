@@ -1,11 +1,7 @@
-project: currency_prediction
+# feature_repo/feature_store.yaml
+project: currency_prediction  # ← это имя
 registry: data/registry.db
 provider: local
-
-# Для простоты используем файловое хранилище
 online_store:
-    type: sqlite
-    path: data/online_store.db
-
-offline_store:
-    type: file
+  type: sqlite
+  path: data/online_store.db
