@@ -13,16 +13,11 @@ import asyncio
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = FastAPI(
-    title="Currency Direction Prediction API", 
-    description="API для предсказания направления изменения курса валют",
-    version="1.0"
-)
-
 # ==================== PROMETHEUS METRICS ====================
 # Для лабораторной 11
 try:
     from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
+    from prometheus_client import make_asgi_app  # ← ДОБАВЛЕНО
     
     # Метрики
     REQUEST_COUNT = Counter(
@@ -74,6 +69,18 @@ except ImportError:
     
     REQUEST_COUNT = REQUEST_LATENCY = PREDICTION_DISTRIBUTION = DummyMetric()
     ERROR_COUNT = PREDICTION_COUNT = DummyMetric()
+
+# ==================== FASTAPI APP ====================
+app = FastAPI(
+    title="Currency Direction Prediction API", 
+    description="API для предсказания направления изменения курса валют",
+    version="1.0"
+)
+
+# ДОБАВЛЯЕМ METRICS APP ЕСЛИ PROMETHEUS ДОСТУПЕН
+if PROMETHEUS_AVAILABLE:
+    metrics_app = make_asgi_app()
+    app.mount("/metrics", metrics_app)
 
 # ==================== МОДЕЛИ ====================
 model = None
@@ -209,21 +216,21 @@ async def health_check():
         "service": "Currency Prediction API"
     }
 
-@app.get("/metrics")
-async def get_metrics():
-    """Эндпоинт для сбора метрик Prometheus"""
-    if not PROMETHEUS_AVAILABLE:
-        raise HTTPException(
-            status_code=501,
-            detail="Prometheus клиент не установлен. Установите: pip install prometheus-client"
-        )
+# @app.get("/metrics")
+# async def get_metrics():
+#     """Эндпоинт для сбора метрик Prometheus"""
+#     if not PROMETHEUS_AVAILABLE:
+#         raise HTTPException(
+#             status_code=501,
+#             detail="Prometheus клиент не установлен. Установите: pip install prometheus-client"
+#         )
     
-    from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+#     from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
     
-    return Response(
-        content=generate_latest(),
-        media_type=CONTENT_TYPE_LATEST
-    )
+#     return Response(
+#         content=generate_latest(),
+#         media_type=CONTENT_TYPE_LATEST
+#     )
 
 @app.post("/predict")
 async def predict(input_data: PredictionInput):
