@@ -25,3 +25,5 @@ feast
 email-validator
 prometheus-client
 starlette
+evidently
+scipy
